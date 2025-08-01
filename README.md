@@ -1,4 +1,4 @@
-# TheMagicTeaCup - Find the Object Game
+# Lost Little Things - Find the Object Game
 
 A modular "find the object" game built with Phaser 3, designed for easy level creation and feature expansion. Players must locate hidden objects within various scenes, with progressive difficulty and engaging gameplay mechanics.
 
@@ -23,8 +23,8 @@ A modular "find the object" game built with Phaser 3, designed for easy level cr
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/TheMagicTeaCup.git
-   cd TheMagicTeaCup
+   git clone https://github.com/yourusername/lost-little-things.git
+cd lost-little-things
    ```
 
 2. **Start a local server**
@@ -47,7 +47,7 @@ A modular "find the object" game built with Phaser 3, designed for easy level cr
 ## 📁 Project Structure
 
 ```
-TheMagicTeaCup/
+lost-little-things/
 ├── index.html                 # Main entry point
 ├── PROJECT_RULES.md           # Development rules and guidelines
 ├── README.md                  # This file
@@ -239,4 +239,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ for the gaming community**
 
-*Version 1.0.0 - TheMagicTeaCup*
+*Version 1.0.0 - Lost Little Things*

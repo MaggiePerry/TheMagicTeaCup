@@ -30,7 +30,7 @@ export class BootScene extends Phaser.Scene {
 
     // Create loading text
     this.loadingText = this.add
-      .text(width / 2, height / 2 - 50, "Loading TheMagicTeaCup...", {
+      .text(width / 2, height / 2 - 50, "Loading Lost Little Things...", {
         fontSize: "24px",
         fill: "#ffffff",
         fontFamily: "Arial",

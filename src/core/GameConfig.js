@@ -87,7 +87,7 @@ export class GameConfig {
   saveSettings() {
     try {
       localStorage.setItem(
-        "theMagicTeaCup_settings",
+        "lost-little-things_settings",
         JSON.stringify(this.gameSettings)
       );
     } catch (error) {
@@ -100,7 +100,7 @@ export class GameConfig {
    */
   loadSettings() {
     try {
-      const saved = localStorage.getItem("theMagicTeaCup_settings");
+      const saved = localStorage.getItem("lost-little-things_settings");
       if (saved) {
         this.gameSettings = { ...this.gameSettings, ...JSON.parse(saved) };
       }
@@ -150,8 +150,8 @@ export class GameConfig {
     this.saveSettings();
 
     // Update physics debug if game is running
-    if (window.theMagicTeaCup && window.theMagicTeaCup.getGame()) {
-      const game = window.theMagicTeaCup.getGame();
+    if (window.lostLittleThings && window.lostLittleThings.getGame()) {
+      const game = window.lostLittleThings.getGame();
       if (game.scene.scenes.length > 0) {
         const currentScene = game.scene.getScene("GameScene");
         if (currentScene && currentScene.physics) {
