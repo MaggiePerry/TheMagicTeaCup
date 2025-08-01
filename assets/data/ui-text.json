@@ -1,0 +1,110 @@
+{
+  "version": "1.0.0",
+  "language": "en",
+  "ui": {
+    "menu": {
+      "title": "TheMagicTeaCup",
+      "subtitle": "Find the Object Game",
+      "play": "Play Game",
+      "levelSelect": "Level Select",
+      "settings": "Settings",
+      "howToPlay": "How to Play"
+    },
+    "game": {
+      "level": "Level",
+      "time": "Time",
+      "objects": "Objects",
+      "found": "Found",
+      "remaining": "Remaining",
+      "pause": "Pause",
+      "resume": "Resume",
+      "restart": "Restart",
+      "menu": "Menu",
+      "hint": "Hint",
+      "skip": "Skip"
+    },
+    "levelComplete": {
+      "title": "Level Complete!",
+      "congratulations": "Congratulations!",
+      "timeBonus": "Time Bonus",
+      "perfectScore": "Perfect Score!",
+      "nextLevel": "Next Level",
+      "replay": "Replay",
+      "menu": "Main Menu"
+    },
+    "gameOver": {
+      "title": "Game Over",
+      "timeUp": "Time's Up!",
+      "tryAgain": "Try Again",
+      "menu": "Main Menu"
+    },
+    "howToPlay": {
+      "title": "How to Play",
+      "instructions": [
+        "1. Find all hidden objects in the scene",
+        "2. Click on objects to collect them",
+        "3. Complete the level to progress",
+        "4. Try to beat your best time!"
+      ]
+    },
+    "settings": {
+      "title": "Settings",
+      "sound": "Sound Effects",
+      "music": "Background Music",
+      "difficulty": "Difficulty",
+      "language": "Language",
+      "reset": "Reset Progress",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "messages": {
+      "objectFound": "Object Found!",
+      "levelComplete": "Level Complete!",
+      "timeWarning": "Time is running out!",
+      "hintUsed": "Hint used!",
+      "progressSaved": "Progress saved!",
+      "error": "An error occurred"
+    }
+  },
+  "hints": {
+    "general": [
+      "Look carefully at every detail",
+      "Objects might be partially hidden",
+      "Check all corners and edges",
+      "Some objects might be very small",
+      "Try zooming in if possible"
+    ],
+    "specific": {
+      "teacup": [
+        "Look for something round and ceramic",
+        "Check near other kitchen items",
+        "It might be on a table or shelf"
+      ],
+      "spoon": [
+        "Look for something long and metallic",
+        "Check near eating areas",
+        "It might be in a drawer or on a table"
+      ],
+      "sugar": [
+        "Look for something white and granular",
+        "Check near sweet items",
+        "It might be in a bowl or container"
+      ],
+      "milk": [
+        "Look for something white and liquid",
+        "Check near cold items",
+        "It might be in a jug or bottle"
+      ]
+    }
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
+  },
+  "time": {
+    "format": "mm:ss",
+    "warning": "Time is running out!",
+    "bonus": "Time Bonus"
+  }
+} 

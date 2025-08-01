@@ -1,1 +1,57 @@
-<h1>Hello World<h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TheMagicTeaCup - Find the Object Game">
+    <title>TheMagicTeaCup - Find the Object Game</title>
+    
+    <!-- Phaser 3 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+    
+    <!-- Game Styles -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        #game-container {
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .loading {
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            margin: 20px;
+        }
+        
+        .error {
+            color: #ff6b6b;
+            text-align: center;
+            font-size: 16px;
+            margin: 20px;
+            padding: 20px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div class="loading" id="loading">Loading TheMagicTeaCup...</div>
+    </div>
+
+    <!-- Game Scripts -->
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
