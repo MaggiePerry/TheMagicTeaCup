@@ -1,4 +1,4 @@
-# Assets Checklist - TheMagicTeaCup
+# Assets Checklist - Lost Little Things
 
 This file lists all the assets you need to create and add to your project for the game to work properly.
 

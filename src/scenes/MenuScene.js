@@ -51,7 +51,7 @@ export class MenuScene extends Phaser.Scene {
 
     // Main title
     this.add
-      .text(width / 2, height * 0.2, "TheMagicTeaCup", {
+      .text(width / 2, height * 0.2, "Lost Little Things", {
         fontSize: "48px",
         fill: "#ffffff",
         fontFamily: "Arial",

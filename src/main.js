@@ -1,5 +1,5 @@
 /**
- * TheMagicTeaCup - Main Game Entry Point
+ * Lost Little Things - Main Game Entry Point
  * Initializes Phaser 3 and manages the game lifecycle
  */
 
@@ -14,7 +14,7 @@ import { LevelManager } from "./core/LevelManager.js";
 /**
  * Main game class that manages the Phaser game instance
  */
-class TheMagicTeaCup {
+class LostLittleThings {
   constructor() {
     this.game = null;
     this.isInitialized = false;
@@ -52,9 +52,9 @@ class TheMagicTeaCup {
         loadingElement.style.display = "none";
       }
 
-      console.log("TheMagicTeaCup initialized successfully!");
+      console.log("Lost Little Things initialized successfully!");
     } catch (error) {
-      console.error("Failed to initialize TheMagicTeaCup:", error);
+      console.error("Failed to initialize Lost Little Things:", error);
       this.showError(error.message);
     }
   }
@@ -101,8 +101,8 @@ class TheMagicTeaCup {
 
 // Initialize the game when the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  window.theMagicTeaCup = new TheMagicTeaCup();
+  window.lostLittleThings = new LostLittleThings();
 });
 
 // Export for module usage
-export { TheMagicTeaCup };
+export { LostLittleThings };

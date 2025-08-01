@@ -1,4 +1,4 @@
-# TheMagicTeaCup - Find the Object Game Project Rules
+# Lost Little Things - Find the Object Game Project Rules
 
 ## 🎯 Project Overview
 A modular "find the object" game built with Phaser 3, designed for easy level creation and feature expansion.
@@ -7,7 +7,7 @@ A modular "find the object" game built with Phaser 3, designed for easy level cr
 
 ### Core Architecture
 ```
-TheMagicTeaCup/
+lost-little-things/
 ├── index.html                 # Main entry point
 ├── assets/                    # Game assets (images, audio, etc.)
 │   ├── images/

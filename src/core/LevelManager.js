@@ -219,7 +219,10 @@ export class LevelManager {
         completedLevels: Array.from(this.completedLevels),
         timestamp: Date.now(),
       };
-      localStorage.setItem("theMagicTeaCup_progress", JSON.stringify(progress));
+      localStorage.setItem(
+        "lost-little-things_progress",
+        JSON.stringify(progress)
+      );
     } catch (error) {
       console.warn("Could not save progress to localStorage:", error);
     }
@@ -230,7 +233,7 @@ export class LevelManager {
    */
   loadProgress() {
     try {
-      const saved = localStorage.getItem("theMagicTeaCup_progress");
+      const saved = localStorage.getItem("lost-little-things_progress");
       if (saved) {
         const progress = JSON.parse(saved);
         this.currentLevel = progress.currentLevel || 0;

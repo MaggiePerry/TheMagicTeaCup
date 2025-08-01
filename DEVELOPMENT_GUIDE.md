@@ -1,6 +1,6 @@
-# Development Guide - TheMagicTeaCup
+# Development Guide - Lost Little Things
 
-This guide provides step-by-step instructions for developing and extending TheMagicTeaCup game.
+This guide provides step-by-step instructions for developing and extending Lost Little Things game.
 
 ## 🚀 Getting Started
 
@@ -14,8 +14,8 @@ This guide provides step-by-step instructions for developing and extending TheMa
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/TheMagicTeaCup.git
-   cd TheMagicTeaCup
+   git clone https://github.com/yourusername/lost-little-things.git
+cd lost-little-things
    ```
 
 2. **Start development server**
