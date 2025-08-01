@@ -31,7 +31,6 @@ lost-little-things/
 2. **Click/Tap Interaction**: Primary interaction method
 3. **Progressive Difficulty**: Levels increase in complexity
 4. **Feedback System**: Visual and audio feedback for interactions
-5. **Timer System**: Optional time-based challenges
 
 ### Level Structure
 - Each level is a separate module
@@ -40,7 +39,6 @@ lost-little-things/
   - Number of objects to find
   - Object size and visibility
   - Scene complexity
-  - Time constraints
 
 ## 💻 Code Organization Rules
 
@@ -115,7 +113,6 @@ const level1 = {
         }
     ],
     background: 'kitchen-bg.png',
-    timeLimit: 120, // seconds
     requiredObjects: 5
 };
 ```

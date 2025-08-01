@@ -12,7 +12,6 @@
     },
     "game": {
       "level": "Level",
-      "time": "Time",
       "objects": "Objects",
       "found": "Found",
       "remaining": "Remaining",
@@ -26,15 +25,12 @@
     "levelComplete": {
       "title": "Level Complete!",
       "congratulations": "Congratulations!",
-      "timeBonus": "Time Bonus",
-      "perfectScore": "Perfect Score!",
       "nextLevel": "Next Level",
       "replay": "Replay",
       "menu": "Main Menu"
     },
     "gameOver": {
       "title": "Game Over",
-      "timeUp": "Time's Up!",
       "tryAgain": "Try Again",
       "menu": "Main Menu"
     },
@@ -43,8 +39,7 @@
       "instructions": [
         "1. Find all hidden objects in the scene",
         "2. Click on objects to collect them",
-        "3. Complete the level to progress",
-        "4. Try to beat your best time!"
+        "3. Complete the level to progress"
       ]
     },
     "settings": {
@@ -60,7 +55,6 @@
     "messages": {
       "objectFound": "Object Found!",
       "levelComplete": "Level Complete!",
-      "timeWarning": "Time is running out!",
       "hintUsed": "Hint used!",
       "progressSaved": "Progress saved!",
       "error": "An error occurred"
@@ -101,10 +95,5 @@
     "easy": "Easy",
     "medium": "Medium",
     "hard": "Hard"
-  },
-  "time": {
-    "format": "mm:ss",
-    "warning": "Time is running out!",
-    "bonus": "Time Bonus"
   }
 } 

@@ -40,26 +40,47 @@ export class LevelManager {
    */
   async loadLevelData() {
     return new Promise((resolve, reject) => {
-      this.game.load.json("levels", "assets/data/levels.json");
-
-      this.game.load.once("complete", () => {
+      // Check if levels data is already loaded in cache
+      if (
+        this.game.cache &&
+        this.game.cache.json &&
+        this.game.cache.json.has("levels")
+      ) {
         try {
           this.levelData = this.game.cache.json.get("levels");
           this.levels = this.levelData.levels || [];
-          console.log(`Loaded ${this.levels.length} levels`);
+          console.log(`Loaded ${this.levels.length} levels from cache`);
           resolve();
         } catch (error) {
-          console.error("Failed to parse level data:", error);
+          console.error("Failed to parse level data from cache:", error);
           reject(error);
         }
-      });
+        return;
+      }
 
-      this.game.load.once("loaderror", (file) => {
-        console.error("Failed to load level data:", file);
-        reject(new Error("Failed to load level data"));
-      });
+      // If cache is not available, try to load the data directly
+      console.log(
+        "LevelManager: Cache not available, loading levels data directly..."
+      );
 
-      this.game.load.start();
+      // Create a simple loader for the JSON file
+      fetch("assets/data/levels.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          this.levelData = data;
+          this.levels = data.levels || [];
+          console.log(`Loaded ${this.levels.length} levels from fetch`);
+          resolve();
+        })
+        .catch((error) => {
+          console.error("Failed to load level data:", error);
+          reject(error);
+        });
     });
   }
 

@@ -6,18 +6,39 @@
 export class BootScene extends Phaser.Scene {
   constructor() {
     super({ key: "BootScene" });
+    this.essentialAssetsLoaded = false;
   }
 
   preload() {
     // Create loading bar
     this.createLoadingBar();
 
-    // Load essential assets
+    // Load only essential assets first
     this.loadEssentialAssets();
   }
 
   create() {
-    console.log("BootScene: Assets loaded, transitioning to MenuScene");
+    console.log("BootScene: create() called - transitioning to MenuScene");
+
+    // Ensure sounds are properly loaded before transitioning
+    const soundsToCheck = ["click", "success", "level-complete"];
+    let allSoundsLoaded = true;
+
+    // soundsToCheck.forEach((soundKey) => {
+    //   if (!this.sound.exists(soundKey)) {
+    //     console.warn(
+    //       `BootScene: Sound ${soundKey} not found before transition`
+    //     );
+    //     allSoundsLoaded = false;
+    //   }
+    // });
+
+    if (!allSoundsLoaded) {
+      console.warn("BootScene: Some sounds not loaded, but continuing anyway");
+    }
+
+    // Always transition to MenuScene, even if some sounds failed to load
+    console.log("BootScene: Starting MenuScene...");
     this.scene.start("MenuScene");
   }
 
@@ -61,6 +82,29 @@ export class BootScene extends Phaser.Scene {
 
     this.load.on("complete", () => {
       this.progressText.setText("100%");
+
+      // Debug: Check which sounds were loaded
+      const loadedSounds = ["click", "success", "level-complete"];
+      // loadedSounds.forEach((soundKey) => {
+      //   if (this.sound && this.sound.exists(soundKey)) {
+      //     console.log(`BootScene: Sound ${soundKey} loaded successfully`);
+      //   } else {
+      //     console.warn(`BootScene: Sound ${soundKey} failed to load`);
+      //   }
+      // });
+
+      // Additional debugging for sound system
+      console.log("BootScene: Sound system available:", !!this.sound);
+      if (this.sound) {
+        console.log("BootScene: Sound cache keys:", this.sound.getAllPlaying());
+        console.log("BootScene: Sound manager keys:", Object.keys(this.sound));
+      }
+
+      this.essentialAssetsLoaded = true;
+    });
+
+    this.load.on("loaderror", (file) => {
+      console.error("BootScene: Failed to load asset:", file.key, file.url);
     });
   }
 
@@ -84,44 +128,20 @@ export class BootScene extends Phaser.Scene {
   }
 
   /**
-   * Load essential assets
+   * Load essential assets only (excluding large audio files)
    */
   loadEssentialAssets() {
-    // Load placeholder images (will be replaced with actual assets)
-    this.load.image(
-      "placeholder",
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
-    );
+    // Load images with proper file paths
+    this.load.image("background", "assets/images/background.png");
+    this.load.image("teacup", "assets/images/teacup.png");
+    this.load.image("spoon", "assets/images/spoon.png");
+    this.load.image("sugar", "assets/images/sugar.png");
+    this.load.image("milk", "assets/images/milk.png");
 
-    // Load basic UI elements
-    this.load.image(
-      "button",
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
-    );
-    this.load.image(
-      "background",
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
-    );
-
-    // Load sample objects for testing
-    this.load.image(
-      "teacup",
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
-    );
-    this.load.image(
-      "spoon",
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
-    );
-
-    // Load audio placeholders
-    this.load.audio(
-      "click",
-      "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT"
-    );
-    this.load.audio(
-      "success",
-      "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT"
-    );
+    // Load only small audio files for immediate use
+    this.load.audio("click", "assets/audio/click.wav");
+    this.load.audio("success", "assets/audio/success.mp3");
+    this.load.audio("level-complete", "assets/audio/level-complete.wav");
 
     // Load level data
     this.load.json("levels", "assets/data/levels.json");

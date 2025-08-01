@@ -21,8 +21,8 @@
           "id": "spoon",
           "x": 300,
           "y": 150,
-          "width": 40,
-          "height": 40,
+          "width": 50,
+          "height": 50,
           "image": "spoon",
           "hint": "Find the silver spoon",
           "found": false
@@ -31,14 +31,13 @@
           "id": "sugar",
           "x": 450,
           "y": 300,
-          "width": 30,
-          "height": 30,
+          "width": 50,
+          "height": 50,
           "image": "sugar",
           "hint": "Look for the sugar bowl",
           "found": false
         }
       ],
-      "timeLimit": 120,
       "requiredObjects": 3,
       "difficulty": "easy"
     },
@@ -52,8 +51,8 @@
           "id": "teacup",
           "x": 100,
           "y": 180,
-          "width": 45,
-          "height": 45,
+          "width": 50,
+          "height": 50,
           "image": "teacup",
           "hint": "The magic teacup is hiding",
           "found": false
@@ -62,8 +61,8 @@
           "id": "spoon",
           "x": 250,
           "y": 120,
-          "width": 35,
-          "height": 35,
+          "width": 50,
+          "height": 50,
           "image": "spoon",
           "hint": "Find the golden spoon",
           "found": false
@@ -72,8 +71,8 @@
           "id": "sugar",
           "x": 400,
           "y": 250,
-          "width": 25,
-          "height": 25,
+          "width": 50,
+          "height": 50,
           "image": "sugar",
           "hint": "Look for the crystal sugar bowl",
           "found": false
@@ -82,14 +81,13 @@
           "id": "milk",
           "x": 350,
           "y": 350,
-          "width": 40,
-          "height": 40,
+          "width": 50,
+          "height": 50,
           "image": "milk",
           "hint": "Find the milk jug",
           "found": false
         }
       ],
-      "timeLimit": 90,
       "requiredObjects": 4,
       "difficulty": "medium"
     },
@@ -103,8 +101,8 @@
           "id": "teacup",
           "x": 120,
           "y": 160,
-          "width": 40,
-          "height": 40,
+          "width": 50,
+          "height": 50,
           "image": "teacup",
           "hint": "The teacup is among the flowers",
           "found": false
@@ -113,8 +111,8 @@
           "id": "spoon",
           "x": 280,
           "y": 100,
-          "width": 30,
-          "height": 30,
+          "width": 50,
+          "height": 50,
           "image": "spoon",
           "hint": "Look near the fountain",
           "found": false
@@ -123,8 +121,8 @@
           "id": "sugar",
           "x": 420,
           "y": 200,
-          "width": 20,
-          "height": 20,
+          "width": 50,
+          "height": 50,
           "image": "sugar",
           "hint": "Check the bird bath",
           "found": false
@@ -133,8 +131,8 @@
           "id": "milk",
           "x": 200,
           "y": 320,
-          "width": 35,
-          "height": 35,
+          "width": 50,
+          "height": 50,
           "image": "milk",
           "hint": "Find the milk near the bench",
           "found": false
@@ -143,14 +141,13 @@
           "id": "button",
           "x": 380,
           "y": 280,
-          "width": 25,
-          "height": 25,
+          "width": 50,
+          "height": 50,
           "image": "button",
           "hint": "Look for the golden button",
           "found": false
         }
       ],
-      "timeLimit": 75,
       "requiredObjects": 5,
       "difficulty": "hard"
     }

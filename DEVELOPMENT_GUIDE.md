@@ -55,7 +55,6 @@ Add your level to `assets/data/levels.json`:
       "hint": "Look for the special object"
     }
   ],
-  "timeLimit": 90,
   "requiredObjects": 4,
   "difficulty": "medium"
 }
@@ -202,7 +201,6 @@ Adjust difficulty in `assets/data/levels.json`:
 
 ```json
 {
-  "timeLimit": 120,        // Time in seconds
   "requiredObjects": 5,    // Objects to find
   "difficulty": "hard"     // easy, medium, hard
 }
@@ -239,7 +237,6 @@ Adjust difficulty in `assets/data/levels.json`:
 
 - [ ] Game loads without errors
 - [ ] All levels are playable
-- [ ] Timer works correctly
 - [ ] Object finding works
 - [ ] Level progression works
 - [ ] Sound effects play
@@ -274,11 +271,6 @@ Adjust difficulty in `assets/data/levels.json`:
    - Verify object bounds
    - Check interaction setup
    - Test with debug graphics
-
-3. **Timer issues**
-   - Check timer initialization
-   - Verify pause functionality
-   - Test time formatting
 
 ### Debug Tools
 

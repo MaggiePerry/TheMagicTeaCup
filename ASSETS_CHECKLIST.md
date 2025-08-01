@@ -20,13 +20,13 @@ This file lists all the assets you need to create and add to your project for th
 ## ✅ **Progress Tracker**
 
 ### Images:
-- [ ] `assets/images/background.png`
-- [ ] `assets/images/teacup.png`
-- [ ] `assets/images/spoon.png`
-- [ ] `assets/images/sugar.png`
-- [ ] `assets/images/milk.png`
-- [ ] `assets/images/button.png`
-- [ ] `assets/images/ui-panel.png`
+- [x] `assets/images/background.png`
+- [x] `assets/images/teacup.png`
+- [x] `assets/images/spoon.png`
+- [x] `assets/images/sugar.png`
+- [x] `assets/images/milk.png`
+- [x] `assets/images/button.png`
+- [x] `assets/images/ui-panel.png`
 
 ### Audio:
 - [x] `assets/audio/click.mp3`

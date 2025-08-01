@@ -7,26 +7,19 @@ export class LevelCompleteScene extends Phaser.Scene {
   constructor() {
     super({ key: "LevelCompleteScene" });
     this.levelData = null;
-    this.timeRemaining = 0;
-    this.score = 0;
-    this.perfect = false;
   }
 
   init(data) {
     this.levelData = data.level;
-    this.timeRemaining = data.timeRemaining;
-    this.score = data.score;
-    this.perfect = data.perfect;
   }
 
   create() {
     this.createBackground();
     this.createCompletionMessage();
-    this.createScoreDisplay();
     this.createButtons();
 
     // Play completion sound
-    if (this.game.sound && this.game.sound.get("level-complete")) {
+    if (this.game.sound && this.game.sound.exists("level-complete")) {
       this.game.sound.play("level-complete");
     }
   }
@@ -99,67 +92,6 @@ export class LevelCompleteScene extends Phaser.Scene {
         fill: "#ffffff",
         fontFamily: "Arial",
         fontStyle: "italic",
-      })
-      .setOrigin(0.5);
-
-    // Perfect score message
-    if (this.perfect) {
-      this.add
-        .text(width / 2, height * 0.2 + 100, "Perfect Score!", {
-          fontSize: "20px",
-          fill: "#ffff00",
-          fontFamily: "Arial",
-          fontStyle: "bold",
-        })
-        .setOrigin(0.5);
-    }
-  }
-
-  /**
-   * Create score display
-   */
-  createScoreDisplay() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
-
-    // Create score panel
-    const scorePanel = this.add
-      .graphics()
-      .fillStyle(0xffffff, 0.2)
-      .fillRoundedRect(width / 2 - 150, height * 0.4, 300, 120, 10)
-      .lineStyle(2, 0xffffff, 1)
-      .strokeRoundedRect(width / 2 - 150, height * 0.4, 300, 120, 10);
-
-    // Time bonus
-    const timeBonus = Math.floor(this.timeRemaining * 10);
-    this.add
-      .text(width / 2, height * 0.4 + 20, `Time Bonus: +${timeBonus}`, {
-        fontSize: "18px",
-        fill: "#00ff00",
-        fontFamily: "Arial",
-        fontStyle: "bold",
-      })
-      .setOrigin(0.5);
-
-    // Perfect bonus
-    if (this.perfect) {
-      this.add
-        .text(width / 2, height * 0.4 + 50, "Perfect Bonus: +100", {
-          fontSize: "18px",
-          fill: "#ffff00",
-          fontFamily: "Arial",
-          fontStyle: "bold",
-        })
-        .setOrigin(0.5);
-    }
-
-    // Total score
-    this.add
-      .text(width / 2, height * 0.4 + 80, `Total Score: ${this.score}`, {
-        fontSize: "24px",
-        fill: "#ffffff",
-        fontFamily: "Arial",
-        fontStyle: "bold",
       })
       .setOrigin(0.5);
   }
@@ -266,7 +198,7 @@ export class LevelCompleteScene extends Phaser.Scene {
         .strokeRoundedRect(-80, -25, 160, 50, 10);
 
       // Play click sound
-      if (this.game.sound && this.game.sound.get("click")) {
+      if (this.game.sound && this.game.sound.exists("click")) {
         this.game.sound.play("click");
       }
 
@@ -283,10 +215,8 @@ export class LevelCompleteScene extends Phaser.Scene {
     if (this.game.levelManager) {
       const hasNext = this.game.levelManager.nextLevel();
       if (hasNext) {
-        console.log("LevelCompleteScene: Starting next level");
         this.scene.start("GameScene");
       } else {
-        console.log("LevelCompleteScene: No more levels, going to menu");
         this.scene.start("MenuScene");
       }
     } else {
@@ -299,7 +229,6 @@ export class LevelCompleteScene extends Phaser.Scene {
    * Replay current level
    */
   replayLevel() {
-    console.log("LevelCompleteScene: Replaying level");
     this.scene.start("GameScene");
   }
 
@@ -307,7 +236,6 @@ export class LevelCompleteScene extends Phaser.Scene {
    * Go to main menu
    */
   goToMenu() {
-    console.log("LevelCompleteScene: Going to menu");
     this.scene.start("MenuScene");
   }
 }

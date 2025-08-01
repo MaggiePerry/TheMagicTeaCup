@@ -6,8 +6,6 @@ A modular "find the object" game built with Phaser 3, designed for easy level cr
 
 - **Find the Object Gameplay**: Locate hidden objects in beautifully designed scenes
 - **Progressive Difficulty**: Levels increase in complexity and challenge
-- **Timer System**: Race against time to complete levels
-- **Score System**: Earn points for speed and accuracy
 - **Level Progression**: Unlock new levels as you complete previous ones
 - **Responsive Design**: Works on desktop and mobile devices
 - **Sound Effects**: Immersive audio feedback
@@ -77,19 +75,12 @@ lost-little-things/
 
 ### Core Gameplay
 1. **Object Finding**: Click on hidden objects to collect them
-2. **Time Management**: Complete levels before time runs out
 3. **Progressive Difficulty**: Each level increases in challenge
-4. **Score System**: Earn points for speed and perfect completion
 
 ### Level Structure
 - **Easy Levels**: 3-4 objects, 120+ seconds
 - **Medium Levels**: 4-5 objects, 90+ seconds  
 - **Hard Levels**: 5+ objects, 75+ seconds
-
-### Scoring System
-- **Time Bonus**: Points for remaining time
-- **Perfect Bonus**: Extra points for finding all objects
-- **Speed Bonus**: Additional points for quick completion
 
 ## 🛠️ Development
 
@@ -113,7 +104,6 @@ lost-little-things/
          "hint": "Look for the new object"
        }
      ],
-     "timeLimit": 90,
      "requiredObjects": 4,
      "difficulty": "medium"
    }
@@ -147,9 +137,9 @@ lost-little-things/
 - **Garden Adventure**: Explore outdoor scenes
 
 ### Difficulty Settings
-- **Easy**: More time, fewer objects
+- **Easy**: fewer objects
 - **Medium**: Balanced challenge
-- **Hard**: Limited time, many objects
+- **Hard**: many objects
 
 ### Visual Customization
 - **Colors**: Modify CSS variables in `index.html`
@@ -186,7 +176,6 @@ lost-little-things/
 
 ### Game Metrics
 - Level completion rates
-- Average completion time
 - Player progression
 - Error tracking
 

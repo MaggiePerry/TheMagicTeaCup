@@ -24,33 +24,48 @@ export class HiddenObject {
    * Create the object sprite
    */
   createSprite() {
-    // Create a placeholder sprite (will be replaced with actual images)
-    this.sprite = this.scene.add
-      .graphics()
-      .fillStyle(0x00ff00, 0.8)
-      .fillRect(
-        this.x - this.width / 2,
-        this.y - this.height / 2,
-        this.width,
-        this.height
-      )
-      .lineStyle(2, 0xffffff, 1)
-      .strokeRect(
-        this.x - this.width / 2,
-        this.y - this.height / 2,
-        this.width,
-        this.height
-      );
+    // Check if the image exists in the cache
+    const imageKey = this.data.image;
+    if (this.scene.textures.exists(imageKey)) {
+      // Use the actual image
+      this.sprite = this.scene.add.image(this.x, this.y, imageKey);
+      this.sprite.setDisplaySize(this.width, this.height);
 
-    // Add text label for debugging
-    this.label = this.scene.add
-      .text(this.x, this.y, this.name, {
-        fontSize: "12px",
-        fill: "#ffffff",
-        fontFamily: "Arial",
-        fontStyle: "bold",
-      })
-      .setOrigin(0.5);
+      console.log(`HiddenObject: Using image ${imageKey} for ${this.name}`);
+    } else {
+      // Fallback to placeholder graphics
+      console.warn(
+        `HiddenObject: Image ${imageKey} not found, using placeholder for ${this.name}`
+      );
+      this.sprite = this.scene.add
+        .graphics()
+        .fillStyle(0x00ff00, 0.8)
+        .fillRect(
+          this.x - this.width / 2,
+          this.y - this.height / 2,
+          this.width,
+          this.height
+        )
+        .lineStyle(2, 0xffffff, 1)
+        .strokeRect(
+          this.x - this.width / 2,
+          this.y - this.height / 2,
+          this.width,
+          this.height
+        );
+    }
+
+    // Add text label for debugging (only show if using placeholder)
+    if (!this.scene.textures.exists(imageKey)) {
+      this.label = this.scene.add
+        .text(this.x, this.y, this.name, {
+          fontSize: "12px",
+          fill: "#ffffff",
+          fontFamily: "Arial",
+          fontStyle: "bold",
+        })
+        .setOrigin(0.5);
+    }
 
     // Make interactive
     this.sprite.setInteractive(
@@ -66,43 +81,55 @@ export class HiddenObject {
     // Add hover effect
     this.sprite.on("pointerover", () => {
       if (!this.isFound) {
-        this.sprite
-          .clear()
-          .fillStyle(0xffff00, 0.9)
-          .fillRect(
-            this.x - this.width / 2,
-            this.y - this.height / 2,
-            this.width,
-            this.height
-          )
-          .lineStyle(3, 0xffffff, 1)
-          .strokeRect(
-            this.x - this.width / 2,
-            this.y - this.height / 2,
-            this.width,
-            this.height
-          );
+        if (this.scene.textures.exists(imageKey)) {
+          // For images, add a tint effect
+          this.sprite.setTint(0xffff00);
+        } else {
+          // For graphics, change the fill color
+          this.sprite
+            .clear()
+            .fillStyle(0xffff00, 0.9)
+            .fillRect(
+              this.x - this.width / 2,
+              this.y - this.height / 2,
+              this.width,
+              this.height
+            )
+            .lineStyle(3, 0xffffff, 1)
+            .strokeRect(
+              this.x - this.width / 2,
+              this.y - this.height / 2,
+              this.width,
+              this.height
+            );
+        }
       }
     });
 
     this.sprite.on("pointerout", () => {
       if (!this.isFound) {
-        this.sprite
-          .clear()
-          .fillStyle(0x00ff00, 0.8)
-          .fillRect(
-            this.x - this.width / 2,
-            this.y - this.height / 2,
-            this.width,
-            this.height
-          )
-          .lineStyle(2, 0xffffff, 1)
-          .strokeRect(
-            this.x - this.width / 2,
-            this.y - this.height / 2,
-            this.width,
-            this.height
-          );
+        if (this.scene.textures.exists(imageKey)) {
+          // For images, clear the tint
+          this.sprite.clearTint();
+        } else {
+          // For graphics, restore the original color
+          this.sprite
+            .clear()
+            .fillStyle(0x00ff00, 0.8)
+            .fillRect(
+              this.x - this.width / 2,
+              this.y - this.height / 2,
+              this.width,
+              this.height
+            )
+            .lineStyle(2, 0xffffff, 1)
+            .strokeRect(
+              this.x - this.width / 2,
+              this.y - this.height / 2,
+              this.width,
+              this.height
+            );
+        }
       }
     });
   }
@@ -116,6 +143,13 @@ export class HiddenObject {
         this.found();
       }
     });
+
+    // Add hover hint
+    this.sprite.on("pointerover", () => {
+      if (!this.isFound) {
+        this.showHint();
+      }
+    });
   }
 
   /**
@@ -127,22 +161,30 @@ export class HiddenObject {
     this.isFound = true;
 
     // Visual feedback
-    this.sprite
-      .clear()
-      .fillStyle(0x00ff00, 0.5)
-      .fillRect(
-        this.x - this.width / 2,
-        this.y - this.height / 2,
-        this.width,
-        this.height
-      )
-      .lineStyle(2, 0x00ff00, 1)
-      .strokeRect(
-        this.x - this.width / 2,
-        this.y - this.height / 2,
-        this.width,
-        this.height
-      );
+    const imageKey = this.data.image;
+    if (this.scene.textures.exists(imageKey)) {
+      // For images, add a green tint and scale effect
+      this.sprite.setTint(0x00ff00);
+      this.sprite.setAlpha(0.7);
+    } else {
+      // For graphics, change the fill color
+      this.sprite
+        .clear()
+        .fillStyle(0x00ff00, 0.5)
+        .fillRect(
+          this.x - this.width / 2,
+          this.y - this.height / 2,
+          this.width,
+          this.height
+        )
+        .lineStyle(2, 0x00ff00, 1)
+        .strokeRect(
+          this.x - this.width / 2,
+          this.y - this.height / 2,
+          this.width,
+          this.height
+        );
+    }
 
     // Add checkmark
     this.checkmark = this.scene.add
@@ -155,8 +197,11 @@ export class HiddenObject {
       .setOrigin(0.5);
 
     // Animate found effect
+    const targets = [this.sprite, this.checkmark];
+    if (this.label) targets.push(this.label);
+
     this.scene.tweens.add({
-      targets: [this.sprite, this.label, this.checkmark],
+      targets: targets,
       scaleX: 1.2,
       scaleY: 1.2,
       duration: 200,
@@ -164,10 +209,8 @@ export class HiddenObject {
       ease: "Power2",
     });
 
-    // Play found sound
-    if (this.scene.game.sound && this.scene.game.sound.get("success")) {
-      this.scene.game.sound.play("success");
-    }
+    // Note: Sound will be played by the GameScene when this object is found
+    // to avoid duplicate sound playing
 
     console.log(`HiddenObject: Found ${this.name}`);
   }

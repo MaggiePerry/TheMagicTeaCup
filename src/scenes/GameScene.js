@@ -10,18 +10,28 @@ export class GameScene extends Phaser.Scene {
     super({ key: "GameScene" });
     this.hiddenObjects = [];
     this.foundObjects = [];
-    this.gameTimer = null;
-    this.timeRemaining = 0;
-    this.isPaused = false;
     this.currentLevel = null;
   }
 
   create() {
-    this.initializeLevel();
+    this.createBackground();
     this.createUI();
+    this.initializeLevel();
     this.createHiddenObjects();
-    this.startTimer();
     this.setupInput();
+  }
+
+  /**
+   * Create background
+   */
+  createBackground() {
+    // Add background image if available
+    if (this.textures.exists("background")) {
+      this.add.image(400, 300, "background").setDisplaySize(800, 600);
+    } else {
+      // Fallback background
+      this.cameras.main.setBackgroundColor("#87CEEB");
+    }
   }
 
   /**
@@ -29,10 +39,27 @@ export class GameScene extends Phaser.Scene {
    */
   initializeLevel() {
     if (this.game.levelManager) {
+      // Wait for level manager to be initialized
+      if (!this.game.levelManager.isInitialized) {
+        this.game.levelManager
+          .initialize()
+          .then(() => {
+            this.initializeLevel();
+          })
+          .catch((error) => {
+            console.error(
+              "GameScene: Failed to initialize LevelManager:",
+              error
+            );
+            this.scene.start("MenuScene");
+          });
+        return;
+      }
+
       this.currentLevel = this.game.levelManager.getCurrentLevel();
       if (this.currentLevel) {
-        this.timeRemaining = this.currentLevel.timeLimit || 120;
-        console.log(`GameScene: Loaded level ${this.currentLevel.name}`);
+        // Update UI with level data
+        this.updateUIWithLevelData();
       } else {
         console.error("GameScene: No level data available");
         this.scene.start("MenuScene");
@@ -46,13 +73,49 @@ export class GameScene extends Phaser.Scene {
   }
 
   /**
+   * Update UI with level data
+   */
+  updateUIWithLevelData() {
+    if (
+      this.currentLevel &&
+      this.levelText &&
+      this.objectsText &&
+      this.currentLevel.objects
+    ) {
+      this.levelText.setText(`Level: ${this.currentLevel.name}`);
+      this.objectsText.setText(
+        `Objects: ${this.foundObjects.length}/${this.currentLevel.objects.length}`
+      );
+
+      // Update progress bar
+      this.updateProgressBar();
+
+      // Create hidden objects if they haven't been created yet
+      this.createHiddenObjectsFromLevel();
+    }
+  }
+
+  /**
+   * Update objects counter
+   */
+  updateObjectsCounter() {
+    if (this.objectsText && this.currentLevel && this.currentLevel.objects) {
+      const text = `Objects: ${this.foundObjects.length}/${this.currentLevel.objects.length}`;
+      this.objectsText.setText(text);
+
+      // Update progress bar
+      this.updateProgressBar();
+    }
+  }
+
+  /**
    * Create UI elements
    */
   createUI() {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
-    // Create UI panel
+    // Create UI panel background
     this.uiPanel = this.add
       .graphics()
       .fillStyle(0x4a90e2, 0.9)
@@ -61,41 +124,43 @@ export class GameScene extends Phaser.Scene {
       .strokeRect(0, 0, width, 60);
 
     // Level info
-    this.levelText = this.add.text(10, 10, `Level: ${this.currentLevel.name}`, {
+    const levelName = this.currentLevel ? this.currentLevel.name : "Loading...";
+    this.levelText = this.add.text(10, 10, `Level: ${levelName}`, {
       fontSize: "16px",
       fill: "#ffffff",
       fontFamily: "Arial",
       fontStyle: "bold",
     });
 
-    // Timer
-    this.timerText = this.add
-      .text(width / 2, 10, this.formatTime(this.timeRemaining), {
-        fontSize: "18px",
+    // Objects counter
+    const objectCount =
+      this.currentLevel && this.currentLevel.objects
+        ? this.currentLevel.objects.length
+        : 0;
+    this.objectsText = this.add.text(
+      width - 200,
+      10,
+      `Objects: ${this.foundObjects.length}/${objectCount}`,
+      {
+        fontSize: "16px",
         fill: "#ffffff",
         fontFamily: "Arial",
         fontStyle: "bold",
-      })
-      .setOrigin(0.5);
+      }
+    );
 
-    // Objects counter
-    this.objectsText = this.add
-      .text(
-        width - 10,
-        10,
-        `Objects: ${this.foundObjects.length}/${this.currentLevel.objects.length}`,
-        {
-          fontSize: "16px",
-          fill: "#ffffff",
-          fontFamily: "Arial",
-          fontStyle: "bold",
-        }
-      )
-      .setOrigin(1, 0);
+    // Progress bar
+    this.progressBar = this.add.graphics();
+    this.updateProgressBar();
 
-    // Pause button
-    this.pauseButton = this.createButton(width - 100, 30, "Pause", () =>
-      this.togglePause()
+    // Menu button
+    this.menuButton = this.createButton(width - 100, 30, "Menu", () =>
+      this.scene.start("MenuScene")
+    );
+
+    // Hint button
+    this.hintButton = this.createButton(width - 200, 30, "Hint", () =>
+      this.showRandomHint()
     );
   }
 
@@ -105,55 +170,28 @@ export class GameScene extends Phaser.Scene {
   createHiddenObjects() {
     this.hiddenObjects = [];
 
-    this.currentLevel.objects.forEach((objData) => {
-      const hiddenObject = new HiddenObject(this, objData);
-      this.hiddenObjects.push(hiddenObject);
-    });
-  }
-
-  /**
-   * Start the game timer
-   */
-  startTimer() {
-    this.gameTimer = this.time.addEvent({
-      delay: 1000,
-      callback: this.updateTimer,
-      callbackScope: this,
-      loop: true,
-    });
-  }
-
-  /**
-   * Update timer
-   */
-  updateTimer() {
-    if (!this.isPaused) {
-      this.timeRemaining--;
-      this.timerText.setText(this.formatTime(this.timeRemaining));
-
-      // Check for time up
-      if (this.timeRemaining <= 0) {
-        this.gameOver();
-      }
-
-      // Warning when time is low
-      if (this.timeRemaining <= 10) {
-        this.timerText.setColor("#ff0000");
-      }
+    if (this.currentLevel && this.currentLevel.objects) {
+      this.currentLevel.objects.forEach((objData) => {
+        const hiddenObject = new HiddenObject(this, objData);
+        this.hiddenObjects.push(hiddenObject);
+      });
     }
   }
 
   /**
-   * Format time as mm:ss
-   * @param {number} seconds - Time in seconds
-   * @returns {string} Formatted time string
+   * Create hidden objects when level data is available
    */
-  formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-      .toString()
-      .padStart(2, "0")}`;
+  createHiddenObjectsFromLevel() {
+    if (
+      this.currentLevel &&
+      this.currentLevel.objects &&
+      this.hiddenObjects.length === 0
+    ) {
+      this.currentLevel.objects.forEach((objData) => {
+        const hiddenObject = new HiddenObject(this, objData);
+        this.hiddenObjects.push(hiddenObject);
+      });
+    }
   }
 
   /**
@@ -162,8 +200,6 @@ export class GameScene extends Phaser.Scene {
   setupInput() {
     // Handle clicks on hidden objects
     this.input.on("pointerdown", (pointer) => {
-      if (this.isPaused) return;
-
       this.hiddenObjects.forEach((obj) => {
         if (
           obj.isVisible &&
@@ -176,10 +212,6 @@ export class GameScene extends Phaser.Scene {
     });
 
     // Handle keyboard input
-    this.input.keyboard.on("keydown-ESC", () => {
-      this.togglePause();
-    });
-
     this.input.keyboard.on("keydown-R", () => {
       this.restartLevel();
     });
@@ -196,21 +228,37 @@ export class GameScene extends Phaser.Scene {
     this.foundObjects.push(object);
 
     // Update UI
-    this.objectsText.setText(
-      `Objects: ${this.foundObjects.length}/${this.currentLevel.objects.length}`
-    );
+    this.updateObjectsCounter();
 
     // Play success sound
-    if (this.game.sound && this.game.sound.get("success")) {
-      this.game.sound.play("success");
+    console.log("GameScene: Attempting to play success sound...");
+    if (this.sound) {
+      // Check if the sound exists in the cache
+      // if (this.sound.exists("success")) {
+      //   this.sound.play("success");
+      //   console.log("GameScene: Success sound played");
+      // } else {
+      //   console.warn("GameScene: Success sound not found in cache");
+      //   // Try to play anyway - Phaser might handle it gracefully
+      //   try {
+      //     this.sound.play("success");
+      //     console.log("GameScene: Direct play attempt completed");
+      //   } catch (error) {
+      //     console.error("GameScene: Error playing sound:", error);
+      //   }
+      // }
+    } else {
+      console.warn("GameScene: Scene sound system not available");
     }
 
     // Show found message
     this.showFoundMessage(object);
 
     // Check if level is complete
-    if (this.foundObjects.length >= this.currentLevel.requiredObjects) {
-      this.levelComplete();
+    if (this.currentLevel && this.currentLevel.requiredObjects) {
+      if (this.foundObjects.length >= this.currentLevel.requiredObjects) {
+        this.levelComplete();
+      }
     }
   }
 
@@ -249,30 +297,16 @@ export class GameScene extends Phaser.Scene {
    * Level complete
    */
   levelComplete() {
-    // Stop timer
-    if (this.gameTimer) {
-      this.gameTimer.destroy();
-    }
-
     // Mark level as completed
     if (this.game.levelManager) {
       this.game.levelManager.completeCurrentLevel();
+    } else {
+      console.error("GameScene: LevelManager not available");
     }
-
-    // Calculate score
-    const timeBonus = Math.floor(this.timeRemaining * 10);
-    const perfectBonus =
-      this.foundObjects.length === this.currentLevel.objects.length ? 100 : 0;
-    const totalScore = timeBonus + perfectBonus;
-
-    console.log(`GameScene: Level complete! Score: ${totalScore}`);
 
     // Transition to level complete scene
     this.scene.start("LevelCompleteScene", {
       level: this.currentLevel,
-      timeRemaining: this.timeRemaining,
-      score: totalScore,
-      perfect: this.foundObjects.length === this.currentLevel.objects.length,
     });
   }
 
@@ -280,13 +314,6 @@ export class GameScene extends Phaser.Scene {
    * Game over
    */
   gameOver() {
-    // Stop timer
-    if (this.gameTimer) {
-      this.gameTimer.destroy();
-    }
-
-    console.log("GameScene: Game over - time up");
-
     // Show game over message
     this.showGameOverMessage();
   }
@@ -344,25 +371,46 @@ export class GameScene extends Phaser.Scene {
   }
 
   /**
-   * Toggle pause state
-   */
-  togglePause() {
-    this.isPaused = !this.isPaused;
-
-    if (this.isPaused) {
-      this.pauseButton.setText("Resume");
-      // TODO: Show pause overlay
-    } else {
-      this.pauseButton.setText("Pause");
-      // TODO: Hide pause overlay
-    }
-  }
-
-  /**
    * Restart current level
    */
   restartLevel() {
     this.scene.restart();
+  }
+
+  /**
+   * Show a random hint for an unfound object
+   */
+  showRandomHint() {
+    const unfoundObjects = this.hiddenObjects.filter((obj) => !obj.isFound);
+    if (unfoundObjects.length > 0) {
+      const randomObject =
+        unfoundObjects[Math.floor(Math.random() * unfoundObjects.length)];
+      randomObject.showHint();
+    }
+  }
+
+  /**
+   * Update progress bar
+   */
+  updateProgressBar() {
+    if (!this.progressBar || !this.currentLevel || !this.currentLevel.objects) {
+      return;
+    }
+
+    const width = this.cameras.main.width;
+    const progress =
+      this.foundObjects.length / this.currentLevel.objects.length;
+
+    // Clear previous progress bar
+    this.progressBar.clear();
+
+    // Background bar
+    this.progressBar.fillStyle(0x333333, 0.5).fillRect(10, 40, width - 20, 10);
+
+    // Progress bar
+    this.progressBar
+      .fillStyle(0x00ff00, 1)
+      .fillRect(10, 40, (width - 20) * progress, 10);
   }
 
   /**
@@ -400,9 +448,18 @@ export class GameScene extends Phaser.Scene {
     button.setSize(100, 40);
     button.setInteractive();
 
+    // Hover effects
+    button.on("pointerover", () => {
+      bg.clear().fillStyle(0x5aa0f2, 1).fillRoundedRect(-50, -20, 100, 40, 5);
+    });
+
+    button.on("pointerout", () => {
+      bg.clear().fillStyle(0x4a90e2, 1).fillRoundedRect(-50, -20, 100, 40, 5);
+    });
+
     // Click effect
     button.on("pointerdown", () => {
-      if (this.game.sound && this.game.sound.get("click")) {
+      if (this.game.sound && this.game.sound.exists("click")) {
         this.game.sound.play("click");
       }
       callback();
