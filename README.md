@@ -1,2 +1,2 @@
 # TheMagicTeaCup
-Personal Github Pages Portfolio
+Find the Object project using cursor!
