@@ -86,10 +86,10 @@ export class AssetLoader {
   loadAudio() {
     return new Promise((resolve, reject) => {
       const audioFiles = [
-        { key: "click", url: "assets/audio/click.mp3" },
+        { key: "click", url: "assets/audio/click.wav" },
         { key: "success", url: "assets/audio/success.mp3" },
-        { key: "background-music", url: "assets/audio/background-music.mp3" },
-        { key: "level-complete", url: "assets/audio/level-complete.mp3" },
+        { key: "background-music", url: "assets/audio/background-music.wav" },
+        { key: "level-complete", url: "assets/audio/level-complete.wav" },
       ];
 
       let loadedCount = 0;

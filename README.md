@@ -220,6 +220,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **GitHub Pages**: Hosting platform
 - **Community**: Contributors and testers
 
+#### Music Credits
+
+###### All music that is not custom is from <https://freesound.org/>
+- **Background Music** -- April Showers: Sweet Lo-Fi Piano Vibes by kjartan_abel -- <https://freesound.org/s/608392/> -- License: Attribution 4.0
+- **Success Sound** -- short-loud-success-sound by rayfaiq -- <https://freesound.org/s/810706/> -- License: Creative Commons 0 Short Success Sound Glockenspiel Treasure Video Game.mp3 by FunWithSound -- <https://freesound.org/s/456965/> -- License: Creative Commons 0
+- **Click Sound** -- Pop 19.wav by Debsound -- <https://freesound.org/s/320549/> -- License: Attribution NonCommercial 4.0
+- **Level Complete** -- Video game level complete sound effect by interstellarcat -- <https://freesound.org/s/787559/> -- License: Creative Commons 0
+
 ## 📞 Support
 
 - **Issues**: Report bugs on GitHub
